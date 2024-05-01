@@ -76,8 +76,8 @@ function App() {
                     appId={FACEBOOK_APP_ID}
                     autoLoad={true}
                     fields="name,email,picture"
-                    // onClick={componentClicked}
                     callback={responseFacebook}/>
+                {/*Uncomment bellow component for code type flow */}
                 {/*<LoginWithGoogle />*/}
                 <GoogleLogin
                     onSuccess={credentialResponse => {
