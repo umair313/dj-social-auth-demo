@@ -1,9 +1,9 @@
-import {useState} from 'react'
+
 import {ToastContainer, toast} from 'react-toastify';
 import './App.css'
 import FacebookLogin from 'react-facebook-login';
 import 'react-toastify/dist/ReactToastify.css';
-import {GoogleOAuthProvider, GoogleLogin, useGoogleLogin} from '@react-oauth/google';
+import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
 import LoginWithGoogle from './google_login.jsx';
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
 
         const formdata = new FormData();
         formdata.append("access_token", response?.credential);
+        formdata.append("id_token", response?.credential);
 
         const requestOptions = {
             method: "POST",
@@ -46,11 +47,11 @@ function App() {
             redirect: "follow"
         };
 
-        fetch("http://localhost:8000/users/facebook-login/", requestOptions)
+        fetch("http://localhost:8000/users/google-login/", requestOptions)
             .then((response) => response.text())
             .then((result) => {
-                toast(`Login as ${response?.name} 🚀`)
-                console.log(result)
+                toast(`Login as ${JSON.parse(result)?.user?.first_name} 🚀`)
+                console.log(JSON.parse(result))
             })
             .catch((error) => {
                 toast("Failed to login from local server. check console");
@@ -81,6 +82,7 @@ function App() {
                 {/*<LoginWithGoogle />*/}
                 <GoogleLogin
                     onSuccess={credentialResponse => {
+                        console.log(credentialResponse);
                         glogin(credentialResponse);
                     }}
                     onError={() => {
