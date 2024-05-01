@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'dj_social_auth.urls'
@@ -163,10 +163,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-REST_USE_JWT = True
 
-REST_AUTH_SERIALIZERS = {
+REST_AUTH = {
+    'USE_JWT': True,
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+    'JWT_AUTH_HTTPONLY': False,  # set False to get the refresh token
+    'TOKEN_MODEL': None,
 }
-REST_AUTH_TOKEN_MODEL = None
+
 
